@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanyam's Shanty Point</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Collection of Sea Shanties">
+    <style>
+        /* Custom styles for the coffee aesthetic and responsive design */
+        body {
+            font-family: 'Dancing Script', sans-serif;
+            background-color: #F8F5F1; /* Light cream background */
+        }
+        .header-bg {
+            background-color: #6F4E37; /* Coffee brown */
+        }
+        .accent-color {
+            background-color: #A0522D; /* Sienna/Terracotta */
+        }
+        .text-accent {
+            color: #A0522D;
+        }
+        .border-accent {
+            border-color: #A0522D;
+        }
+        .shanty-item:hover {
+            background-color: #F0EAD6; /* Lighter cream on hover */
+        }
+        .shanty-item.active {
+            background-color: #E0D8C0; /* Slightly darker cream for active */
+            font-weight: 600;
+        }
+        /* Custom scrollbar for lyrics */
+        .lyrics-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .lyrics-scroll::-webkit-scrollbar-track {
+            background: #F8F5F1;
+            border-radius: 10px;
+        }
+        .lyrics-scroll::-webkit-scrollbar-thumb {
+            background: #A0522D;
+            border-radius: 10px;
+        }
+        .lyrics-scroll::-webkit-scrollbar-thumb:hover {
+            background: #8B4513;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="header-bg text-white p-6 md:p-8 rounded-b-xl shadow-xl">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-wide mb-4 md:mb-0">Sanyam's Shanty Point</h1>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <section class="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-accent" style="font-family: Inter;">Shanty Collection</h2>
+            <ul id="shanty-list" class="space-y-3" style="font-family: Inter;">
+                </ul>
+        </section>
+
+        <section class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-accent">Now Playing: <span id="now-playing-title" class="text-accent"></span></h2>
+
+            <div class="aspect-video w-full rounded-lg overflow-hidden shadow-xl mb-8 border-2 border-gray-300">
+                <iframe id="shanty-video"
+                        class="w-full h-full"
+                        title="Sea Shanties"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="bg-stone-50 p-6 rounded-lg shadow-inner border border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Lyrics</h3>
+                <div id="lyrics-content" class="lyrics-scroll h-64 overflow-y-auto text-lg leading-relaxed text-stone-700 font-serif whitespace-pre-wrap">
+                    <p class="text-center text-gray-500 italic">Select a shanty from the left to view its lyrics.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <script>
+        // Array of sea shanty data
+        const shanties = [
+            {
+                title: "Wellerman",
+                videoId: "qP-7GNoDJ5c", // YouTube video ID
+                lyrics: `There once was a ship that put to sea,
+The name of the ship was the Billy o' Tea,
+The winds blew up, her bow dipped down,
+Blow, my bully boys, blow (huh!)
+
+Soon may the Wellerman come
+To bring us sugar and tea and rum.
+One day, when the tonguing is done,
+We'll take our leave and go.
+
+She'd not been two weeks from shore
+When down on her a right whale bore.
+The captain called all hands and swore
+He'd take that whale in tow (huh!)
+
+Soon may the Wellerman come
+To bring us sugar and tea and rum.
+One day, when the tonguing is done,
+We'll take our leave and go.
+
+Before the boat had hit the water
+The whale's tail came up and caught her.
+All hands to the side, harpooned and fought her,
+When she dived down below (huh!)
+
+Soon may the Wellerman come
+To bring us sugar and tea and rum.
+One day, when the tonguing is done,
+We'll take our leave and go.
+
+No line was cut, no whale was freed,
+The captain's mind was not of greed,
+But he belonged to the whaleman's creed;
+She took that ship in tow (huh!)
+
+Soon may the Wellerman come
+To bring us sugar and tea and rum.
+One day, when the tonguing is done,
+We'll take our leave and go.
+
+For forty days or even more,
+The great right whale her carcass tore
+And all the men and boys aboard
+Ate nothing but raw (huh!)
+
+Soon may the Wellerman come
+To bring us sugar and tea and rum.
+One day, when the tonguing is done,
+We'll take our leave and go.
+
+Ah, but better things are yet to come,
+When we've eaten all the whale and drunk all the rum.
+We'll sail away and leave the shore,
+And then we'll sing no more (huh!)
+
+Soon may the Wellerman come
+To bring us sugar and tea and rum.
+One day, when the tonguing is done,
+We'll take our leave and go.`
+            },
+            {
+                title: "Drunken Sailor",
+                videoId: "W1c_VYbMpdM",
+                lyrics: `What will we do with a drunken sailor?
+What will we do with a drunken sailor?
+What will we do with a drunken sailor?
+Early in the mornin'
+
+Way hay and up she rises
+Way hay and up she rises
+Way hay and up she rises
+Early in the mornin'
+
+Shave his belly with a rusty razor
+Shave his belly with a rusty razor
+Shave his belly with a rusty razor
+Early in the mornin'
+
+Way hay and up she rises
+Way hay and up she rises
+Way hay and up she rises
+Early in the mornin'
+
+We'll put him in a long boat 'til he's sober
+Put him in a long boat 'til he's sober
+Put him in a long boat 'til he's sober
+Early in the mornin'
+
+Way hay and up she rises
+Way hay and up she rises
+Way hay and up she rises
+Early in the mornin' (whoo!)
+
+Stick him in the scupper with a hosepipe on him
+Stick him in the scupper with a hosepipe on him
+Stick him in the scupper with a hosepipe on him
+Early in the mornin'
+
+Way hay and up she rises
+Way hay and up she rises
+Way hay and up she rises
+Early in the mornin'
+
+Put him in the bed with the captain's daughter
+Put him in the bed with the captain's daughter
+Put him in the bed with the captain's daughter
+Early in the mornin'
+
+Way hay and up she rises
+Way hay and up she rises
+Way hay and up she rises
+Early in the mornin'
+
+That's what we do with a drunken sailor
+That's what we do with a drunken sailor
+That's what we do with a drunken sailor
+Early in the mornin'
+
+Way hay and up she rises
+Way hay and up she rises
+Way hay and up she rises
+Early in the mornin'
+
+Way hay and up she rises
+Way hay and up she rises
+Way hay and up she rises
+Early in the mornin'`
+            },
+            {
+                title: "Leave Her, Johnny",
+                videoId: "CtYQ4CgXzvY",
+                lyrics: `I thought I heard the Old Man say:
+"Leave her, Johnny, leave her."
+Tomorrow you will get your pay,
+and it's time for us to leave her.
+
+Leave her, Johnny, leave her!
+Oh, leave her, Johnny, leave her!
+For the voyage is long and the winds don't blow
+And it's time for us to leave her.
+
+Oh, the wind was foul and the sea ran high.
+"Leave her, Johnny, leave her!"
+She shipped it green and none went by.
+And it's time for us to leave her.
+
+Leave her, Johnny, leave her!
+Oh, leave her, Johnny, leave her!
+For the voyage is long and the winds don't blow
+And it's time for us to leave her.
+
+I hate to sail on this rotten tub.
+"Leave her, Johnny, leave her!"
+No grog allowed and rotten grub.
+And it's time for us to leave her.
+
+Leave her, Johnny, leave her!
+Oh, leave her, Johnny, leave her!
+For the voyage is long and the winds don't blow
+And it's time for us to leave her.
+
+We swear by rote for want of more.
+"Leave her, Johnny, leave her!"
+But now we're through so we'll go on shore.
+And it's time for us to leave her.
+
+Leave her, Johnny, leave her!
+Oh, leave her, Johnny, leave her!
+For the voyage is long and the winds don't blow
+And it's time for us to leave her.`
+            },
+{
+                title: "Bully In The Alley",
+                videoId: "SKCLgzl4Ky8",
+                lyrics: `Oh help me Bob, I'm bully in the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al
+
+Now Sally is a girl in Shinbone Alley
+Wey hey, bully in the alley
+Sally is the girl that I spliced nearly
+Bully down in Shinbone Al
+
+So!
+Help me Bob, I'm bullyin the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al
+
+I found by self out under three-oh
+Wey hey, bully in the alley
+I found by self with time so free-oh
+Bully down in Shinbone Al
+
+So!
+Help me Bob, I'm bully in the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al
+
+I waltzed up to the angel little
+Wey hey, bully in the alley
+And kicked down the door, and walked right in oh
+Bully down in Shinbone Al
+
+So!
+Help me Bob, I'm bully in the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al
+
+I walked up to the barroom counter
+Wey hey, bully in the alley
+There I met with Greasy Artie
+Bully down in Shinbone Al
+
+So!
+Help me Bob, I'm bully in the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al
+
+Greasy Ann, it's slimy horror
+Wey hey, bully in the alley
+Henry shell back knock in her daugther
+Bully down in Shinbone Al
+
+So!
+Help me Bob, I'm bully in the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al
+
+I bought her rum and I bought her gin, oh
+Wey hey, bully in the alley
+And bought her wine, of white and red, oh
+Bully down in Shinbone Al
+
+So!
+Help me Bob, I'm bully in the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al
+
+And when I've spent a folly total
+Wey hey, bully in the alley
+Off to bed, we end up cripol
+Bully down in Shinbone Al
+
+So!
+Help me Bob, I'm bully in the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al
+
+We're open, tope a low light lark, oh
+Wey hey, bully in the alley
+Dawn and rain, can the cock did call, oh
+Bully down in Shinbone Al
+
+So!
+Help me Bob, I'm bully in the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al
+
+So!
+Help me Bob, I'm bully in the alley
+Wey hey, bully in the alley
+Help me Bob, I'm bully in the alley
+Bully down in Shinbone Al`
+}
+        ];
+
+        const shantyList = document.getElementById('shanty-list');
+        const shantyVideo = document.getElementById('shanty-video');
+        const lyricsContent = document.getElementById('lyrics-content');
+        const nowPlayingTitle = document.getElementById('now-playing-title');
+
+        // Function to load a shanty
+        function loadShanty(index) {
+            const shanty = shanties[index];
+            shantyVideo.src = `https://www.youtube.com/embed/${shanty.videoId}`;
+            lyricsContent.innerHTML = shanty.lyrics.trim();
+            nowPlayingTitle.textContent = shanty.title;
+
+            // Update active class
+            const currentActive = document.querySelector('.shanty-item.active');
+            if (currentActive) {
+                currentActive.classList.remove('active');
+            }
+            document.querySelector(`.shanty-item[data-index="${index}"]`).classList.add('active');
+        }
+
+        // Populate the shanty list
+        shanties.forEach((shanty, index) => {
+            const listItem = document.createElement('li');
+            listItem.className = 'shanty-item cursor-pointer p-3 rounded-lg transition-all duration-200 text-gray-700 hover:bg-opacity-80';
+            listItem.setAttribute('data-index', index);
+            listItem.textContent = shanty.title;
+            listItem.addEventListener('click', () => loadShanty(index));
+            shantyList.appendChild(listItem);
+        });
+
+        // Load the first shanty by default
+        if (shanties.length > 0) {
+            loadShanty(0);
+        }
+    </script>
+</body>
+</html>
